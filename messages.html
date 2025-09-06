@@ -1,105 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Meta tags for character encoding and viewport settings -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Title of the webpage displayed in the browser tab -->
   <title>Sent Messages</title>
+
   <style>
+    /* General body styles */
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f4f7fc;
+      font-family: 'Arial', sans-serif; /* Font for the page */
+      background-color: #f4f7fc; /* Background color */
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      height: 100vh;
-      padding-top: 30px;
+      display: flex; /* Flexbox layout to center content */
+      justify-content: center; /* Center horizontally */
+      align-items: flex-start; /* Align to the top */
+      height: 100vh; /* Full viewport height */
+      padding-top: 30px; /* Space from the top */
     }
 
+    /* Container that holds the messages */
     .message-container {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
-      width: 100%;
-      max-width: 700px;
-      text-align: center;
+      background-color: #ffffff; /* White background */
+      padding: 40px; /* Padding inside the container */
+      border-radius: 10px; /* Rounded corners */
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+      width: 100%; /* Full width */
+      max-width: 700px; /* Max width */
+      text-align: center; /* Center text */
     }
 
+    /* Header style */
     h1 {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 30px;
-      font-weight: 600;
+      font-size: 2rem; /* Font size */
+      color: #333; /* Dark text color */
+      margin-bottom: 30px; /* Space below the header */
+      font-weight: 600; /* Bold text */
     }
 
+    /* Styles for individual message block */
     .message {
-      background-color: #f1f1f1;
-      padding: 20px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
-      text-align: left;
+      background-color: #f1f1f1; /* Light gray background */
+      padding: 20px; /* Padding inside each message */
+      margin-bottom: 15px; /* Space between messages */
+      border-radius: 8px; /* Rounded corners */
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05); /* Soft shadow */
+      text-align: left; /* Left-align text */
     }
 
+    /* Styling for each paragraph inside the message */
     .message p {
       margin: 0;
-      padding: 5px 0;
-      font-size: 1rem;
+      padding: 5px 0; /* Padding above and below text */
+      font-size: 1rem; /* Font size */
     }
 
+    /* Timestamp style inside each message */
     .message .timestamp {
-      font-size: 0.9rem;
-      color: #888;
-      text-align: right;
+      font-size: 0.9rem; /* Smaller font for timestamp */
+      color: #888; /* Light gray color */
+      text-align: right; /* Align timestamp to the right */
     }
 
+    /* Style for the "Go Back" button */
     .btn-view-messages {
-      margin-top: 20px;
-      padding: 12px 25px;
-      background-color: #4CAF50;
-      color: white;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s;
+      margin-top: 20px; /* Space from the messages */
+      padding: 12px 25px; /* Button padding */
+      background-color: #4CAF50; /* Green background */
+      color: white; /* White text */
+      font-size: 1.1rem; /* Slightly larger text */
+      border: none; /* Remove border */
+      border-radius: 5px; /* Rounded corners */
+      cursor: pointer; /* Pointer cursor on hover */
+      text-decoration: none; /* No underline */
+      transition: background-color 0.3s; /* Smooth background transition */
     }
 
+    /* Hover effect for the "Go Back" button */
     .btn-view-messages:hover {
-      background-color: #45a049;
+      background-color: #45a049; /* Slightly darker green on hover */
     }
   </style>
 </head>
 <body>
 
+  <!-- Message container where messages are displayed -->
   <div class="message-container">
     <h1>Sent Messages</h1>
 
+    <!-- Container to hold the message log -->
     <div id="message-log"></div>
 
+    <!-- Button to go back to the homepage -->
     <a href="index.html" class="btn-view-messages">Go Back to Home</a>
   </div>
 
   <script>
+    // Function to execute when the page loads
     window.onload = function() {
+      // Retrieve messages from localStorage (or default to empty array if not found)
       const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      
+      // Get the element to display the message log
       const messageLog = document.getElementById('message-log');
 
+      // Check if there are any messages
       if (messages.length === 0) {
+        // If no messages, display a message
         messageLog.innerHTML = '<p>No messages sent yet.</p>';
       } else {
+        // Loop through each message and display it
         messages.forEach((message) => {
+          // Create a new div for each message
           const messageDiv = document.createElement('div');
-          messageDiv.classList.add('message');
+          messageDiv.classList.add('message'); // Apply the 'message' class
+
+          // Add message content (sender, receiver, message, timestamp)
           messageDiv.innerHTML = `
             <p><strong>From:</strong> ${message.senderName}</p>
             <p><strong>To:</strong> ${message.receiverName}</p>
             <p><strong>Message:</strong> ${message.message}</p>
             <p class="timestamp"><strong>Sent on:</strong> ${message.timestamp}</p>
           `;
+          
+          // Append the message div to the message log container
           messageLog.appendChild(messageDiv);
         });
       }
@@ -108,3 +135,5 @@
 
 </body>
 </html>
+
+
