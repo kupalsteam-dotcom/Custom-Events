@@ -1,9 +1,8 @@
-Custom Events in JavaScript
-What Are Custom Events?
+# What Are Custom Events?
 
 Custom events are events that you define yourself (not the standard ones like click, submit, etc.). You can use them to signal that something has happened in your app.
 
-🔧 Key Functions Involved
+## Key Functions Involved
 
 new CustomEvent(eventName, options)
 Creates a new custom event.
@@ -14,7 +13,7 @@ Dispatches (fires) the event.
 element.addEventListener(eventName, handler)
 Listens for the custom event.
 
-Real-Life Examples
+## Real-Life Examples
 
 Toast Notification for Editing User Profile
 
