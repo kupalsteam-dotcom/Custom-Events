@@ -2,30 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Responsive design for mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Message System</title>
   <style>
+    /* Basic styles for the whole page */
     body {
       font-family: 'Arial', sans-serif;
       background-color: #f4f7fc;
       margin: 0;
       padding: 0;
+      /* Center container horizontally and vertically */
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      height: 100vh; /* Full viewport height */
     }
 
+    /* Container for the form */
     .container {
       background-color: #ffffff;
       padding: 40px;
       border-radius: 10px;
+      /* Subtle shadow for 3D effect */
       box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 500px;
+      max-width: 500px; /* Responsive max width */
       text-align: center;
     }
 
+    /* Header style */
     h1 {
       font-size: 2rem;
       color: #333;
@@ -33,14 +39,16 @@
       font-weight: 600;
     }
 
+    /* Label style */
     label {
       font-size: 1rem;
       color: #333;
       margin-bottom: 10px;
       text-align: left;
-      display: block;
+      display: block; /* Make labels appear above inputs */
     }
 
+    /* Inputs and textarea styling */
     input, textarea {
       width: 100%;
       padding: 12px;
@@ -48,30 +56,34 @@
       border: 2px solid #ddd;
       border-radius: 5px;
       font-size: 1rem;
-      outline: none;
-      transition: border-color 0.3s ease;
+      outline: none; /* Remove default focus outline */
+      transition: border-color 0.3s ease; /* Smooth border color change */
     }
 
+    /* Change border color when input or textarea is focused */
     input:focus, textarea:focus {
-      border-color: #4CAF50;
+      border-color: #4CAF50; /* Green highlight */
     }
 
+    /* Button styles */
     button {
       width: 100%;
       padding: 12px;
-      background-color: #4CAF50;
+      background-color: #4CAF50; /* Green background */
       color: white;
       border: none;
       border-radius: 5px;
       font-size: 1.1rem;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s; /* Smooth color change on hover */
     }
 
+    /* Darker green on hover */
     button:hover {
       background-color: #45a049;
     }
 
+    /* Footer text styling */
     .footer-text {
       font-size: 0.9rem;
       color: #888;
@@ -81,54 +93,64 @@
 </head>
 <body>
 
+  <!-- Main container for the message form -->
   <div class="container">
     <h1>Send a Message</h1>
 
+    <!-- Label and input for sender's name -->
     <label for="sender-name">Your Name</label>
     <input type="text" id="sender-name" placeholder="Enter your name" required>
 
+    <!-- Label and input for receiver's name -->
     <label for="receiver-name">Receiver's Name</label>
     <input type="text" id="receiver-name" placeholder="Enter receiver's name" required>
 
+    <!-- Label and textarea for the message -->
     <label for="message">Message</label>
     <textarea id="message" placeholder="Write your message" rows="5" required></textarea>
 
+    <!-- Button to send the message -->
     <button id="send-button">Send Message</button>
 
+    <!-- Informative footer text -->
     <p class="footer-text">Your message will be sent immediately!</p>
   </div>
 
   <script>
+    // Add click event listener to the send button
     document.getElementById('send-button').addEventListener('click', function() {
+      // Get trimmed values from the inputs and textarea
       const senderName = document.getElementById('sender-name').value.trim();
       const receiverName = document.getElementById('receiver-name').value.trim();
       const message = document.getElementById('message').value.trim();
 
+      // Validate that all fields have values
       if (!senderName || !receiverName || !message) {
         alert('Please fill in all fields!');
-        return;
+        return; // Stop further execution if validation fails
       }
 
-      // Simple alert notification
+      // Show confirmation alert with message details
       alert(`Message from ${senderName} to ${receiverName}: \n\n"${message}"\n\nSent successfully!`);
 
-      // Save message to localStorage
+      // Prepare message object to store
       const messageData = {
         senderName: senderName,
         receiverName: receiverName,
         message: message,
-        timestamp: new Date().toLocaleString()
+        timestamp: new Date().toLocaleString() // Save current date and time
       };
 
-      // Retrieve previous messages from localStorage, or initialize as an empty array
+      // Retrieve previous messages from localStorage, or initialize an empty array
       let messages = JSON.parse(localStorage.getItem('messages')) || [];
+      // Add the new message to the array
       messages.push(messageData);
 
-      // Save updated messages back to localStorage
+      // Save the updated messages array back to localStorage
       localStorage.setItem('messages', JSON.stringify(messages));
 
-      // Redirect to another page after the alert
-      window.location.href = 'thankyou.html';  // Redirects to thankyou.html
+      // Redirect the user to the thank you page
+      window.location.href = 'thankyou.html';
     });
   </script>
 
