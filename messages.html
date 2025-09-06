@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sent Messages</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f7fc;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      padding-top: 30px;
+    }
+
+    .message-container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    .message {
+      background-color: #f1f1f1;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+      text-align: left;
+    }
+
+    .message p {
+      margin: 0;
+      padding: 5px 0;
+      font-size: 1rem;
+    }
+
+    .message .timestamp {
+      font-size: 0.9rem;
+      color: #888;
+      text-align: right;
+    }
+
+    .btn-view-messages {
+      margin-top: 20px;
+      padding: 12px 25px;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .btn-view-messages:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="message-container">
+    <h1>Sent Messages</h1>
+
+    <div id="message-log"></div>
+
+    <a href="index.html" class="btn-view-messages">Go Back to Home</a>
+  </div>
+
+  <script>
+    window.onload = function() {
+      const messages = JSON.parse(localStorage.getItem('messages')) || [];
+      const messageLog = document.getElementById('message-log');
+
+      if (messages.length === 0) {
+        messageLog.innerHTML = '<p>No messages sent yet.</p>';
+      } else {
+        messages.forEach((message) => {
+          const messageDiv = document.createElement('div');
+          messageDiv.classList.add('message');
+          messageDiv.innerHTML = `
+            <p><strong>From:</strong> ${message.senderName}</p>
+            <p><strong>To:</strong> ${message.receiverName}</p>
+            <p><strong>Message:</strong> ${message.message}</p>
+            <p class="timestamp"><strong>Sent on:</strong> ${message.timestamp}</p>
+          `;
+          messageLog.appendChild(messageDiv);
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
