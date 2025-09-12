@@ -89,6 +89,37 @@
       color: #888;
       margin-top: 20px;
     }
+
+ .toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  min-width: 250px;
+  max-width: 80%;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.5s ease;
+  z-index: 9999;
+}
+
+/* Show toast (pops down from top) */
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Error toast style (red) */
+.toast.error {
+  background-color: #e74c3c;
+}
   </style>
 </head>
 <body>
@@ -130,29 +161,54 @@
         return; // Stop further execution if validation fails
       }
 
-      // Show confirmation alert with message details
-      alert(`Message from ${senderName} to ${receiverName}: \n\n"${message}"\n\nSent successfully!`);
+      function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
 
-      // Prepare message object to store
-      const messageData = {
-        senderName: senderName,
-        receiverName: receiverName,
-        message: message,
-        timestamp: new Date().toLocaleString() // Save current date and time
-      };
+    // Apply success or error style
+    toast.className = 'toast show' + (isError ? ' error' : '');
 
-      // Retrieve previous messages from localStorage, or initialize an empty array
-      let messages = JSON.parse(localStorage.getItem('messages')) || [];
-      // Add the new message to the array
-      messages.push(messageData);
+    // Hide after 3 seconds
+    setTimeout(() => {
+      toast.className = 'toast'; // remove 'show' and 'error'
+    }, 3000);
+  }
 
-      // Save the updated messages array back to localStorage
-      localStorage.setItem('messages', JSON.stringify(messages));
+  document.getElementById('send-button').addEventListener('click', function () {
+    const senderName = document.getElementById('sender-name').value.trim();
+    const receiverName = document.getElementById('receiver-name').value.trim();
+    const message = document.getElementById('message').value.trim();
 
-      // Redirect the user to the thank you page
+    // Validation
+    if (!senderName || !receiverName || !message) {
+      showToast('Please fill in all fields!', true); // true = error
+      return;
+    }
+
+    // Store message
+    const messageData = {
+      senderName,
+      receiverName,
+      message,
+      timestamp: new Date().toLocaleString()
+    };
+
+    const messages = JSON.parse(localStorage.getItem('messages')) || [];
+    messages.push(messageData);
+    localStorage.setItem('messages', JSON.stringify(messages));
+
+    showToast('Message sent successfully!');
+
+    // Redirect after short delay
+    setTimeout(() => {
       window.location.href = 'thankyou.html';
+    }, 1500);
+  });
     });
+    
   </script>
+
+<div id="toast" class="toast"></div>
 
 </body>
 </html>
